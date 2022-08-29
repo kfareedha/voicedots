@@ -1,0 +1,115 @@
+<section>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/admin">Admin Panel</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/view-category">Categories</a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="/admin/view-users">Users </a>
+                    </li>
+                   
+                     <li class="nav-item">
+                        <a class="nav-link" href="/admin/view-product">Products </a>
+                    </li>
+                    
+                     <li class="nav-item">
+                        <a class="nav-link" href="/admin/view-banner">Banners</a>
+                    </li>
+                    <li class="nav-item">
+                         <a class="nav-link active" href="/admin/view-order">Orders</a>
+                    </li>
+                </ul>
+                <a href="/admin/adminlogout" class="btn btn-danger">Logout</a>
+            </div>
+        </div>
+    </nav>
+</section><section>
+    <div class="container">
+
+
+       <div class=" d-flex justify-content-between"> <div><h3>Delivered Orders </h3></div> <div> <span class="text-right"> Download</span><button id="invoice" onclick="generatePDF()"><i class="fa fa-download" aria-hidden="true"></i></div></div><br>
+        
+        <table class="table mt-5 display" id="orderTable">
+            <thead>
+                <tr>
+                    <th width="10%" scope="col">Date</th>
+                    <th width="10%" scope="col">User</th>
+                                       
+                   <th scope="col">Payment</th>
+                    <th scope="col">products</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total Amount</th>         
+
+                    
+
+                </tr>
+            </thead>
+            <tbody>
+
+                {{#each deliveredOrder}}
+
+                <tr>
+                    <td>{{this.orderDate}}</td>
+                    <td>{{this.user.name}}</td>
+                    
+                   
+
+
+                    <td>{{this.paymentDetails}}</td>
+
+                   
+
+                    <td> {{#each this.orderItems}} {{this.product.productname}} <br>{{/each}}</td>
+                    <td>{{#each this.orderItems}} {{this.quantity}} <br>{{/each}}</td>
+                    <td>Rs.{{this.totalPrice}}</td>
+                    
+                    
+                    
+
+                </tr>
+
+                {{/each}}
+
+
+            </tbody>
+            
+        </table>
+    </div>
+   
+   <br> <div class="text-left ml-5"><button id="invoice" onclick="generatePDF()"><i class="fa fa-download" aria-hidden="true"></i></div>
+</section>
+<script>
+    $(document).ready(function () {
+
+
+        $('#orderTable').wrap('<div id="hide" style="display:none"/>');
+
+        $('#hide').css('display', 'block');
+    });
+
+
+    var table = $('#orderTable').DataTable();
+</script>
+
+<script>
+    function generatePDF() {
+        const element = document.getElementById('invoice');
+        html2pdf()
+            .from(element)
+            .save();
+
+    }
+</script>
+<script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.min.js"></script>
