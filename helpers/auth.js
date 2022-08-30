@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
-const UserModel = require('../models/userModel');
+const UserModel = require('../Models/userModel');
 // const accountSid = "AC59d5f04d351ff8916e6ede90bd445557"
 // const authToken = "6df098f756065c5e551a3ca939b35e30"
 const accountSid = process.env.accountSID

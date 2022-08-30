@@ -1,12 +1,12 @@
 var express = require('express');
 const async = require('hbs/lib/async');
 var router = express.Router();
-const Admin = require('../models/adminModel');
+const Admin = require('../Models/adminModel');
 const adminHelpers = require('../helpers/admin-helpers');
 const { response } = require('../app');
 const multer = require('../helpers/multer')
-const category = require('../models/categoryModel');
-const banner = require('../models/bannerModel');
+const category = require('../Models/categoryModel');
+const banner = require('../Models/bannerModel');
 
 
 function isLogin(req, res, next) {

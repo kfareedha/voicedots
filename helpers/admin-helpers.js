@@ -1,12 +1,12 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
-const adminModel = require('../models/adminModel')
-const categoryModel = require('../models/categoryModel')
-const userModel = require('../models/userModel')
-const productModel = require('../models/productModel');
-const bannerModel = require('../models/bannerModel');
-const couponModel = require('../models/couponModel')
-const orderModel = require('../models/orderModel');
+const adminModel = require('../Models/adminModel')
+const categoryModel = require('../Models/categoryModel')
+const userModel = require('../Models/userModel')
+const productModel = require('../Models/productModel');
+const bannerModel = require('../Models/bannerModel');
+const couponModel = require('../Models/couponModel')
+const orderModel = require('../Models/orderModel');
 module.exports = {
 
     doLogin: (adminData) => {

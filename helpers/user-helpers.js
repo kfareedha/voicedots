@@ -1,15 +1,15 @@
 const async = require('hbs/lib/async');
 const { reject } = require('bcrypt/promises')
-const User = require('../models/userModel');
+const User = require('../Models/userModel');
 const bcrypt = require('bcrypt');
-const cartModel = require('../models/cartModel')
-const wishlistModel = require('../models/wishlistModel')
-const productModel = require('../models/productModel')
+const cartModel = require('../Models/cartModel')
+const wishlistModel = require('../Models/wishlistModel')
+const productModel = require('../Models/productModel')
 const mongoose = require('mongoose')
-const addressModel = require('../models/addressModel')
+const addressModel = require('../Models/addressModel')
 const Razorpay = require('razorpay');
-const orderModel = require('../models/orderModel')
-const couponModel = require('../models/couponModel');
+const orderModel = require('../Models/orderModel')
+const couponModel = require('../Models/couponModel');
 
 
 const env = require('dotenv').config()

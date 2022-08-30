@@ -1,14 +1,14 @@
 var  express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose')
-const User = require('../models/userModel');
+const User = require('../Models/userModel');
 const userHelpers = require('../helpers/user-helpers')
 const auth = require('../helpers/auth')
 const adminHelpers = require('../helpers/admin-helpers')
-const Products = require('../models/productModel');
-const banners = require('../models/bannerModel');
-const address = require('../models/addressModel')
-const cartModel = require('../models/cartModel');
+const Products = require('../Models/productModel');
+const banners = require('../Models/bannerModel');
+const address = require('../Models/addressModel')
+const cartModel = require('../Models/cartModel');
 const Razorpay = require('razorpay');
 
 const isLogin = (req, res, next) => {
