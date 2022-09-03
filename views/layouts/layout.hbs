@@ -52,6 +52,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <script src="/javascripts/cartcount.js"></script>
 </head>
 
 <body>
@@ -63,17 +64,22 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
         const addToCart = async (id) => {
             console.log(id)
             const res = await axios.post(`/addToCart/${id}`, {
-            }).then((e) => {
+            }).then(async (e) => {
                 console.log(e)
+                if(e.data.status){
                 if (e.data.response.duplicate) {
-                    swal("Oops"+"   Item already added to the cart","warning")
+                   await swal("Oops"+"Item already added to the cart","warning")
                 } else {
                     let count = document.getElementById('cart-count').innerHTML
                     count = parseInt(count) + 1
                     document.getElementById('cart-count').innerHTML = count
-                    swal("Item added to the cart")
+                     await swal("Item added to the cart")
 
                 }
+                }else{
+                    window.location.href='/login'
+                }
+
             })
         }
         const deleteW = () => {
@@ -86,24 +92,28 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
         }
         const addToWishList = async (id) => {
         const res = await axios.post(`/addToWishList/${id}`, {
-        }).then((e) => {
+        }).then(async (e) => {
+            if(e.data.status){
             if (e.data.response.cart) {
-                Swal.fire("Item already added to the cart")
+              await  swal("Item already added to the cart")
             } else {
                 if (e.data.response.added) {
-                    swal("Item added to the wishlist")
+                     await swal("Item added to the wishlist")
                     let count = document.getElementById('wishlist-count').innerHTML
                     count = parseInt(count) + 1
                     document.getElementById('wishlist-count').innerHTML = count
                     document.getElementById('wishListIcon').style.color = '#FF0000' 
                 } else {
-                     swal("Item removed from wishlist")
+                    await swal("Item removed from wishlist")
                     let count = document.getElementById('wishlist-count').innerHTML
                     count = parseInt(count) - 1
                     document.getElementById('wishlist-count').innerHTML = count
 
         document.getElementById('wishListIcon').style.color = '#a9a9a9' 
                 }
+            }
+            }else{
+                 window.location.href='/login'
             }
 
         })

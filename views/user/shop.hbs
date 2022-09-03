@@ -50,6 +50,8 @@
                         <a href="/" class="nav-item nav-link active">Home</a>
                         <a href="/shop" class="nav-item nav-link active">Shop</a>
                         <a href="/myOrder" class="nav-item nav-link active">Orders</a>
+                        
+                        <a href="/contact" class="nav-item nav-link active">Contact Us</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Categories</a>
 
@@ -77,42 +79,7 @@
             </nav>
             <script src="/javascripts/cartcount.js"></script>
 
-            </nav>
-            <div class="row">
-                <div class="col-11 mx-auto">
-                    <div id="header-carousel" class="carousel slide" data-ride="carousel">
-
-                        <div class="carousel-inner">
-                            {{#each Banners}}
-                            <div class="carousel-item {{#if @first }} active {{/if}}" style="height: 560px;">
-                                <img class="img-fluid" src="/images/productimg/{{this.bannerimage}}" alt="Image">
-                                <div
-                                    class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                                    <div class="p-3" style="max-width: 700px;">
-                                        <h4 class="text-light text-uppercase font-weight-medium mb-3">{{this.title}}
-                                        </h4>
-                                        <h3 class="display-4 text-white font-weight-semi-bold mb-4">{{this.caption}}
-                                        </h3>
-                                        <a href="/shop/{{this.category}}" class="btn btn-light py-2 px-3">Shop Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            {{/each}}
-                        </div>
-
-                        <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
-                            <div class="btn btn-dark" style="width: 45px; height: 45px;">
-                                <span class="carousel-control-prev-icon mb-n2"></span>
-                            </div>
-                        </a>
-                        <a class="carousel-control-next" href="#header-carousel" data-slide="next">
-                            <div class="btn btn-dark" style="width: 45px; height: 45px;">
-                                <span class="carousel-control-next-icon mb-n2"></span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </div>
 </div>
@@ -163,31 +130,37 @@
                         </div>
 
                         <div class="row px-xl-5 pb-3">
-                            {{#each products}}
-                            <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                                <div class="card product-item border-0 mb-4">
-                                    <div
-                                        class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                        <img class="img-fluid w-100" src="/images/productimg/{{productimage.[0]}}"
-                                            style="max: height 300px; " alt="headset">
-                                    </div>
-                                    <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                                        <h6 class="text-truncate mb-3">{{this.productname}}</h6>
-                                        <div class="d-flex justify-content-center">
-                                            <h6> {{this.productprice}}</h6>
-                                            <h6 class="text-muted ml-2"><del>RS 2123.00</del></h6>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer d-flex justify-content-between bg-light border">
-                                        <a href="/view-detail/{{this._id}}" class="btn btn-sm text-dark p-0"><i
-                                                class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                                         <div>
-                                <button onclick="addToCart('{{this._id}}')"  class="btn btn-sm text-dark p-0"> <i
-                               class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
-                               </div>
-                                    </div>
-                                </div>
-                            </div>{{/each}}
+                             {{#each products}}
+        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+            <div class="card product-item border-0 mb-4">
+                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                    <img class="img-fluid w-100" src="/images/productimg/{{productimage.[0]}}"
+                        style="max: height 300px; " alt="headset">
+                </div>
+                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                    <h6 class="text-truncate mb-3">{{this.productname}}</h6>
+                    <div class="d-flex justify-content-center">
+                        <h6>RS. {{this.productprice}}</h6>
+                        <h6 class="text-muted ml-2"><del>RS 7777.00</del></h6>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between bg-light border">
+                    <a href="/view-detail/{{this._id}}" class="btn btn-sm text-dark p-0"><i
+                            class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                        
+                    <button onclick="addToWishList('{{this._id}}')" class="btn btn-sm text-dark p-0">
+                        <i class="fas fa-heart text-primary"></i>
+                    </button>
+                    <div>
+                        
+                        <button onclick="addToCart('{{this._id}}')" class="btn btn-sm text-dark p-0"> <i
+                                class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>{{/each}}
+
                         </div>
                     </div>
 
@@ -282,7 +255,7 @@
 
 
             <!-- Back to Top -->
-            <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+            
 
 
             <!-- JavaScript Libraries -->
@@ -297,37 +270,5 @@
 
             <!-- Template Javascript -->
             <script src="js/main.js"></script>
-            <script>
-        const addToCart = async (id) => {
-            console.log(id)
-			try{
-            const res = await axios.post(`/addToCart/${id}`, {
-            }).then((e) => {
-				
-                console.log(e)
-                if (e.data.response.duplicate) {
-                    alert("Item already added to the cart")
-                } else {
-                    let count = document.getElementById('cart-count').innerHTML
-                    count = parseInt(count) + 1
-                    document.getElementById('cart-count').innerHTML = count
-                    alert("Item added to the cart")
-
-                }
-            })
-			}catch(err){
-				console.log(err)
-			}
-        }
-        {{!-- const deleteW = () => {
-            window.location.reload()
-        } --}}
-        const todo = async (id)=>{
-            await addToCart(id)
-            {{!-- deleteW() --}}
-            console.log('gjghjgfhgfuyjyhfdgrfdg')
-        }
-    </script>
-            </body>
-
-            </html>
+            
+           

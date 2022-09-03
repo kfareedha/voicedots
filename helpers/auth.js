@@ -5,6 +5,7 @@ const UserModel = require('../Models/userModel');
 // const authToken = "6df098f756065c5e551a3ca939b35e30"
 const accountSid = process.env.accountSID
 const authToken = process.env.authToken
+const servicesid = process.env.serviceID
 const client = require('twilio')(accountSid, authToken);
 const env = require('dotenv').config()
 
@@ -46,7 +47,7 @@ module.exports={
 sendOtp: (mobile) => {
                     console.log(mobile)
                     return new Promise((resolve, reject) => {
-                        client.verify.v2.services('VA51d2797b41d3d20afcc65917e2e09db6')
+                        client.verify.v2.services(servicesid )
                             .verifications
                             .create({ to: '+91' + mobile, channel: 'sms' })
                             .then(verification => {
@@ -59,7 +60,7 @@ sendOtp: (mobile) => {
                 },
                 verifyOtp: (otp, mobile) => {
                     return new Promise((resolve, reject) => {
-                        client.verify.v2.services('VA51d2797b41d3d20afcc65917e2e09db6')
+                        client.verify.v2.services(servicesid )
                             .verificationChecks
                             .create({ to: '+91' + mobile, code: otp })
                             .then((verification_check) => {

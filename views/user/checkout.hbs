@@ -50,6 +50,8 @@
                         <a href="/" class="nav-item nav-link active">Home</a>
                         <a href="/shop" class="nav-item nav-link active">Shop</a>
                         <a href="/myOrder" class="nav-item nav-link active">Orders</a>
+                        
+                        <a href="/contact" class="nav-item nav-link active">Contact Us</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Categories</a>
 
@@ -77,42 +79,7 @@
             </nav>
             <script src="/javascripts/cartcount.js"></script>
 
-            </nav>
-            <div class="row">
-                <div class="col-11 mx-auto">
-                    <div id="header-carousel" class="carousel slide" data-ride="carousel">
-
-                        <div class="carousel-inner">
-                            {{#each Banners}}
-                            <div class="carousel-item {{#if @first }} active {{/if}}" style="height: 560px;">
-                                <img class="img-fluid" src="/images/productimg/{{this.bannerimage}}" alt="Image">
-                                <div
-                                    class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                                    <div class="p-3" style="max-width: 700px;">
-                                        <h4 class="text-light text-uppercase font-weight-medium mb-3">{{this.title}}
-                                        </h4>
-                                        <h3 class="display-4 text-white font-weight-semi-bold mb-4">{{this.caption}}
-                                        </h3>
-                                        <a href="/shop/{{this.category}}" class="btn btn-light py-2 px-3">Shop Now</a>
-                                    </div>
-                                </div>
-                            </div>
-                            {{/each}}
-                        </div>
-
-                        <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
-                            <div class="btn btn-dark" style="width: 45px; height: 45px;">
-                                <span class="carousel-control-prev-icon mb-n2"></span>
-                            </div>
-                        </a>
-                        <a class="carousel-control-next" href="#header-carousel" data-slide="next">
-                            <div class="btn btn-dark" style="width: 45px; height: 45px;">
-                                <span class="carousel-control-next-icon mb-n2"></span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </div>
 </div>
@@ -142,7 +109,7 @@
                             </div>
                             <div class="row p-2">
                                 <div class="col-lg-8 mb-3 p-0">
-                                    <div class="row">
+                                    <div class="row">{{#if (gt address)}}
                                         {{#each address}}
                                         <div class="col-lg-6 ">
                                             <div class="card">
@@ -160,6 +127,9 @@
                                             </div>
                                         </div>
                                         {{/each}}
+                                        {{else}}
+                                        <p class="text-danger text-center">Please add  an address<p>
+                                        {{/if}}
                                     </div>
 
                                 </div>
@@ -224,12 +194,19 @@
                                                         Online</label>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>{{#if (gt address)}}
                                         <div class="card-footer border-secondary bg-transparent">
                                             <button onclick="placeOrder()"
                                                 class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Place
                                                 Order</button>
                                         </div>
+                                {{else}}
+                                <div class="card-footer border-secondary bg-transparent">
+                                            <button onclick="placeOrder()" disabled
+                                                class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Place
+                                                Order</button>
+                                        </div>
+                                        {{/if}}
                                     </div>
                                 </div>
                             </div>

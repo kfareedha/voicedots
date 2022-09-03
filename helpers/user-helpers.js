@@ -326,7 +326,7 @@ let userHelper = {
                 wishlistItems[0] = {product}
                 newWishlist = new wishlistModel({
                     user,
-                    wishListItems
+                    wishlistItems
                 })
                 newWishlist.save().then((data) => {
                     response.added = true
@@ -340,11 +340,16 @@ let userHelper = {
         return new Promise(async (resolve, reject) => {
             let response = {}
             let products = await wishlistModel.findOne({ user: userId }).populate('wishListItems.product').lean()
+            if( products){
             if (products.wishListItems.length > 0) {
                 response.notEmpty = true
                 response.products = products
                 resolve(response)
             } else {
+                response.notEmpty = false
+                resolve(response)
+            }}
+            else {
                 response.notEmpty = false
                 resolve(response)
             }
@@ -376,7 +381,7 @@ let userHelper = {
             try{
 
                 let defaultAddress = null;
-                let address = await addressModel.find({ User: userId }).lean();
+                let address = await addressModel.find({ user: userId }).lean();
                 console.log(address)
                 if (address) {
                     defaultAddress = false;
@@ -384,7 +389,7 @@ let userHelper = {
                     defaultAddress = true;
                 }
                 let Address = new addressModel({
-                    User: userId,
+                    user: userId,
                     name: data.name,
                     email:data.email,
                     mobile:data.mobile,
@@ -532,7 +537,7 @@ let userHelper = {
       getUserOrders:(userId)=>{
         console.log(userId,"orderjs")
         return new Promise(async (resolve, reject) => {
-            let userOrder = await orderModel.find({ userId:userId }).sort({orderDate:-1}).populate('orderItems.product').lean()
+            let userOrder = await orderModel.find({ user:userId }).populate('orderItems.product').lean().sort({orderDate:1})
             console.log(userOrder , "userorder")
                 resolve(userOrder)
             })

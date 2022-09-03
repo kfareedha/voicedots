@@ -31,9 +31,10 @@ router.get('/', async (req, res, next) => {
 
 router.get('/shop', async (req, res, next) => {
   let session = req.session
+  let user = req.session.userloggedIn
   let products = await Products.find({}).lean()
   adminHelpers.getAllCategory().then(async (cats) => {
-  res.render('user/shop', { session, cats, products });
+  res.render('user/shop', { session, cats, products,user });
   })
   //req.session.loginerr = false
 });
@@ -200,27 +201,44 @@ router.get('/view-detail/:id', async (req, res) => {
 
 })
 
+router.get('/contact', async (req, res) => {
+
+  let session = req.session
+  let cats = await adminHelpers.getAllCategory()
+  res.render('user/contact', { session, cats })
+
+
+
+
+})
 
 router.post('/addToCart/:id', isLogin, (req, res) => {
+  if (req.session.user){
   let userId = req.session.user._id;
   let proId = req.params.id;
   userHelpers.addToCart(userId, proId).then(response => {
     // console.log(response,"cart")
-    res.json({ response })
+    res.json({ response,status:true  })
   })
+}else{
+  res.json({ status:false })
+}
 
 })
 
 router.get('/cart', isLogin, async (req, res) => {
   let session = req.session
   let cats = await adminHelpers.getAllCategory()
+  let coupons =  await adminHelpers.getcoupons()
   req.session.coupon=null
   req.session.discount-null
   // console.log(cats);
   userHelpers.getCartProducts(req.session.user._id).then((response) => {
      if (response) {
       let cart = response.cart
-      res.render('user/cart', { user: true, cart, session, response,cats })
+      console.log(cart,"ffff")
+    
+      res.render('user/cart', { user: true, cart, session, response,cats,coupons })
      } else {
        res.render('user/cart', { user: true, session, response,cats })
      }
@@ -257,10 +275,15 @@ router.post('/deleteFromCart/:id', isLogin, (req, res) => {
   })
 })
 router.post('/addTowishList/:id', isLogin, (req, res) => {
+  if (req.session.user){
   userHelpers.addToWishList(req.session.user._id, req.params.id).then((response) => {
     console.log(response)
-    res.json({ response })
+    res.json({ response,status:true })
+  
   })
+   }else{
+    res.json({ status:false })
+  }
 })
 router.get('/wishlist', isLogin, (req, res) => {
   let session = req.session
@@ -308,7 +331,7 @@ router.get('/address', isLogin, (req, res) => {
   console.log('yttfy',userId)
   userHelpers.getAddress(userId).then((address) => {
     console.log(address,"abcdef")
-    res.render("user/address", { layout:'homelayout',user: true, address, session })
+    res.render("user/address", { user: true, address, session })
   })
 })
 router.get('/add-address', isLogin, (req, res) => {
@@ -316,7 +339,7 @@ router.get('/add-address', isLogin, (req, res) => {
   let userId= req.session.user._id;
   console.log('yttfy',userId)
   userHelpers.getAddress(userId).then((address) => {
-    res.render("user/add-address", { layout:'homelayout',user: true, address, session })
+    res.render("user/add-address", { user: true, address, session })
   })
 })
 

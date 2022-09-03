@@ -41,6 +41,10 @@ app.engine('hbs', hbs.engine({ extname: 'hbs',defaultLayout: "layout",
   eq: function(data,value){
     return data === value
   },
+  gt:function(address){
+    let length=address.length;
+    return (length > 0)
+  },
   
   json:function(data){
     return JSON.stringify(data)

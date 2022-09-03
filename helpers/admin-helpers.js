@@ -291,7 +291,7 @@ module.exports = {
     },
     getAllOrders: () => {
         return new Promise(async (resolve, reject) => {
-            let orderdetails = await orderModel.find({}).sort({ orderdDate: -1 }).populate('user').populate('deliveryDetails').populate('orderItems.product').lean()
+            let orderdetails = await orderModel.find({}).sort({ orderDate: 1 }).populate('user').populate('deliveryDetails').populate('orderItems.product').lean()
             console.log(JSON.stringify(orderdetails) + "bdbsd")
             resolve(orderdetails)
         })
@@ -415,7 +415,7 @@ module.exports = {
                 let recentOrders
                  = await orderModel.aggregate([
                     {
-                        $match: { orderStatus: 'cancelled' }
+                        $match: { orderStatus: 'Placed' }
                     },
                     {
                          $sort: {orderDate :-1 }
@@ -613,12 +613,12 @@ getTodaySales:()=>{
 })
 },
 getmonthlysales:()=>{
-
+// const month=["january","February","March","April","May","june","july","August","september","october","november","December"]
     return new Promise(async (resolve, reject) => {
        try{
         let  monthlysales = await orderModel.aggregate([
             {
-                $match: {orderStatus:'cancelled'}
+                $match: {orderStatus:'delivered'}
             },
             
             {

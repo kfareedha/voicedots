@@ -18,6 +18,7 @@
                 </div>
             </form>
         </div>
+        {{#if session.userloggedIn}}
         <div class="col-lg-4 col-6 text-right">
             <a href="/wishlist" class="btn border">
                 <i class="fas fa-heart text-primary"></i>
@@ -28,7 +29,20 @@
                 <span class="badge badge-primary" id="cart-count" style="color: white;"></span>
             </a>
         </div>
+        {{else}}
+         <div class="col-lg-4 col-6 text-right">
+            <a data-toggle="modal" data-target="#loginModal" class="btn border">
+                <i class="fas fa-heart text-primary"></i>
+                <span class="badge badge-primary" id="wishlist-count" style="color: white;"></span>
+            </a>
+            <a href="/cart" data-toggle="modal" data-target="#loginModal" class="btn border">
+                <i class="fas fa-shopping-cart text-primary"></i>
+                <span class="badge badge-primary" id="cart-count" style="color: white;"></span>
+            </a>
+        </div>
+        {{/if}}
     </div>
+
 </div>
 <!-- Topbar End -->
 
@@ -49,14 +63,19 @@
                     <div class="navbar-nav mr-auto py-0">
                         <a href="/" class="nav-item nav-link active">Home</a>
                         <a href="/shop" class="nav-item nav-link active">Shop</a>
+                        {{#if session.userloggedIn}}
                         <a href="/myOrder" class="nav-item nav-link active">Orders</a>
+                        {{else}}
+                       <a data-toggle="modal" data-target="#loginModal" class="nav-item nav-link active">Orders</a>
+                        {{/if}}
+                        <a href="/contact" class="nav-item nav-link active">Contact Us</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Categories</a>
 
-                            <div class="dropdown-menu rounded-0 m-0">
+                            <div class="dropdown-menu rounded-0 pr-5">
                                 {{#each cats}}
-                                <a href="/shop/{{this.categoryname}}" class="ml-3" data-toggle="dropdownitem">
-                                    <div>{{this.categoryname}}</div>
+                                <a href="/shop/{{this.categoryname}}" class="ml-3 pr-5" data-toggle="dropdownitem">
+                                    <div class=" pl-5" >{{this.categoryname}}</div>
                                 </a>
                                 {{/each}}
                             </div>
@@ -75,9 +94,7 @@
                     </div>
                 </div>
             </nav>
-            <script src="/javascripts/cartcount.js"></script>
-
-            </nav>
+            
             <div class="row">
                 <div class="col-11 mx-auto">
                     <div id="header-carousel" class="carousel slide" data-ride="carousel">
@@ -201,14 +218,16 @@
                 <div class="card-footer d-flex justify-content-between bg-light border">
                     <a href="/view-detail/{{this._id}}" class="btn btn-sm text-dark p-0"><i
                             class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                        
                     <button onclick="addToWishList('{{this._id}}')" class="btn btn-sm text-dark p-0">
                         <i class="fas fa-heart text-primary"></i>
                     </button>
                     <div>
-                        {{!-- <a href="/view-detail/{{this._id}}">add to cart</a> --}}
+                        
                         <button onclick="addToCart('{{this._id}}')" class="btn btn-sm text-dark p-0"> <i
                                 class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
                     </div>
+                    
                 </div>
             </div>
         </div>{{/each}}
@@ -277,14 +296,14 @@
                     <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
                     <div class="d-flex flex-column justify-content-start">
                         <a class="text-dark mb-2" href="/"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                        <a class="text-dark mb-2" href="shop.html"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                        <a class="text-dark mb-2" href="detail.html"><i class="fa fa-angle-right mr-2"></i>Shop
+                        <a class="text-dark mb-2" href="/shop"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
+                        <a class="text-dark mb-2" href="myOrder"><i class="fa fa-angle-right mr-2"></i>Shop
                             Detail</a>
-                        <a class="text-dark mb-2" href="cart.html"><i class="fa fa-angle-right mr-2"></i>Shopping
+                        <a class="text-dark mb-2" href="/cart"><i class="fa fa-angle-right mr-2"></i>Shopping
                             Cart</a>
-                        <a class="text-dark mb-2" href="checkout.html"><i
+                        <a class="text-dark mb-2" href="/checkout"><i
                                 class="fa fa-angle-right mr-2"></i>Checkout</a>
-                        <a class="text-dark" href="contact.html"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                        <a class="text-dark" href="/contact"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
                     </div>
                 </div>
                 <div class="col-md-4 mb-5">
@@ -312,7 +331,7 @@
 
 
 <!-- Back to Top -->
-<a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
 
 
 
@@ -330,3 +349,86 @@
 
 <!-- Template Javascript -->
 <script src="js/main.js"></script>
+<section>
+
+			<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header border-bottom-0">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="form-title text-center">
+								<h4>Login</h4>
+							</div>
+							<div class="d-flex flex-column text-center"> 
+                                
+								<form id="userlogin" action="/login" method="post" class="mx-1 mx-md-4">
+									<div class="form-group">
+										<input type="email" name="email" class="form-control" id="email1"
+											placeholder="Your email address...">
+									</div>
+									<div class="form-group">
+										<input type="password" name="password" class="form-control" id="password1"
+											placeholder="Your password...">
+									</div>
+									<button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm mt-4">Login</button>
+								</form>
+
+
+								<div class="modal-footer d-flex justify-content-center">
+									<div class="signup-section">Not a member yet? <a href="/register" class="text-info">
+											Sign
+											Up</a>.</div>
+								</div>
+							</div>
+						</div>
+		</section>
+
+
+
+		<style>
+			@media (min-width: 576px) {
+				.modal-dialog {
+					max-width: 400px;
+				}
+
+				.modal-content {
+					padding: 1rem;
+					margin-top: 30%;
+				}
+			}
+
+			.modal-header {
+				.close {
+					margin-top: -1.5rem;
+				}
+			}
+
+			.form-title {
+				margin: -2rem 0rem 2rem;
+			}
+
+			.btn-round {
+				border-radius: 3rem;
+			}
+
+			.delimiter {
+				padding: 1rem;
+			}
+
+			.social-buttons {
+				.btn {
+					margin: 0 0.5rem 1rem;
+				}
+			}
+
+			.signup-section {
+				padding: 0.3rem 0rem;
+			}
+		</style>
+
+		

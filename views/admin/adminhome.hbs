@@ -506,20 +506,7 @@
         const res = await axios.get('/admin/chart1').then((e) => {
             console.log(e.data.orders +"yyyyyy")
 
-            {{!-- var result = [];
-            e.data.orders.reduce(function (acc, curr) {
-                if (!acc[curr.orderDate.slice(0, 10)]) {
-
-                    acc[curr.orderDate.slice(0, 10)] = { date: curr.orderDate.slice(0, 10), totalPrice: 0 };
-                    result.push(acc[curr.orderDate.slice(0, 10)])
-                }
-                acc[curr.orderDate.slice(0, 10)].totalPrice += parseInt(curr.totalPrice)
-
-                return acc
-            }, {});
-
-            console.log(result)--}}
-
+           
             var xValues = [];
             var yValues = []; 
 
@@ -575,7 +562,7 @@
     var myChart1 = new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: ['Placed', 'delivered','shipped'],
+            labels: ['Shipped', 'Placed','Delivered'],
             datasets: [{
                 label: 'payment methods',
                 data: value,
