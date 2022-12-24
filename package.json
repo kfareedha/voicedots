@@ -27,5 +27,17 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.19"
-  }
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kfareedha/voicedots.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kfareedha/voicedots/issues"
+  },
+  "homepage": "https://github.com/kfareedha/voicedots#readme",
+  "description": ""
 }
